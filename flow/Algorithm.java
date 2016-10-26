@@ -134,6 +134,7 @@ public class Algorithm {
 			MATRIX[current.fil][current.col] = 0;
 		return false;
 	}
+
 	
 	/**
 	 * Checkea si un punto está fuera de los límites de la matriz.
