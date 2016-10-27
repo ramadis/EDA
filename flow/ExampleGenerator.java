@@ -3,6 +3,16 @@ package flow;
 import java.util.List;
 
 public class ExampleGenerator {
+
+	static int fils0 = 6;
+	static int cols0 = 6;
+	static int[][] matrix0 =
+			{		{2,1,0,0,0,0},
+			 		{0,0,3,0,4,0},
+			 		{0,0,5,0,0,4},
+					{0,0,0,0,0,3},
+					{0,0,1,0,0,5},
+			 		{0,0,0,0,0,2}};
 	
 	static int fils1 = 8;
 	static int cols1 = 8;
@@ -132,8 +142,9 @@ public class ExampleGenerator {
 							{0,0,0,0,0,0,0,0,6,0,0,0}};
 	
 	public static List<Example> generateExamples(List<Example> examples) {
-		
-		examples.add(new Example(fils1, cols1, matrix1));
+
+		examples.add(new Example(fils0, cols0, matrix0));
+		//examples.add(new Example(fils1, cols1, matrix1));
 		//examples.add(new Example(fils2, cols2, matrix2));
 		//examples.add(new Example(fils3, cols3, matrix3));
 		//examples.add(new Example(fils4, cols4, matrix4));
