@@ -140,10 +140,20 @@ public class ExampleGenerator {
 							{0,0,0,0,0,0,0,0,0,0,0,5},
 							{0,0,0,0,0,0,0,0,0,0,1,7},
 							{0,0,0,0,0,0,0,0,6,0,0,0}};
+
+	static int fils12 = 6;
+	static int cols12 = 6;
+	static int[][] matrix12 =
+			{		{0,1,0,0,0,0},
+					{0,0,0,0,1,0},
+					{0,0,2,0,0,0},
+					{0,0,0,0,0,0},
+					{0,0,0,0,0,0},
+					{0,0,0,0,0,2}};
 	
 	public static List<Example> generateExamples(List<Example> examples) {
 
-		examples.add(new Example(fils0, cols0, matrix0));
+		//examples.add(new Example(fils0, cols0, matrix0));
 		//examples.add(new Example(fils1, cols1, matrix1));
 		//examples.add(new Example(fils2, cols2, matrix2));
 		//examples.add(new Example(fils3, cols3, matrix3));
@@ -155,6 +165,7 @@ public class ExampleGenerator {
 		//examples.add(new Example(fils9, cols9, matrix9));
 		//examples.add(new Example(fils10, cols10, matrix10));
 		//examples.add(new Example(fils11, cols11, matrix11));
+		examples.add(new Example(fils12, cols12, matrix12));
 		
 		return examples;
 		
