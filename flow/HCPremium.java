@@ -1,32 +1,35 @@
 package flow;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HCPremium {
 	
 	private static int FILS;
 	private static int COLS;
+	private static MyTimer TIMER;
 	
-	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, int precision) {
+	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, long top_time) {
 		
 		FILS = fils;
 		COLS = cols;
+		TIMER = new MyTimer(top_time);
 		
 		Point[][] quick_solution = null;
 		Solution2 best_solution = null;
 		Solution2 other_solution = null;
 		
-		
-		for (int i = 1; i <= precision; i++) {
-			quick_solution = QuickSolution.solve(fils, cols, initial_matrix, i);
+		while (!TIMER.finished()) {
+			quick_solution = QuickSolution.solve(fils, cols, initial_matrix, 1, TIMER);
 			
+			if (TIMER.finished())
+				return quick_solution;
+			
+			while (findEmptyPairs(quick_solution));
 			other_solution = new Solution2(getEmptyCells(fils, cols, quick_solution), quick_solution, fils, cols);
-			
-			while (findEmptyPairs(other_solution.matrix));
 			
 			if (best_solution == null || (other_solution.freeCellCount < best_solution.freeCellCount))
 				best_solution = other_solution;
+			if (best_solution.freeCellCount == 0) {
+				return best_solution.matrix;
+			}
 		}
 		
 		return best_solution.matrix;

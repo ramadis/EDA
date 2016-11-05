@@ -64,7 +64,7 @@ public class Test {
 			System.out.println("");
 			
 			long start_time = System.currentTimeMillis();
-			solution = HCPremium.solve(fils, cols, matrix, 2);
+			solution = HCPremium.solve(fils, cols, matrix, 100);
 			long total_time = System.currentTimeMillis() - start_time;
 			
 			System.out.println("Salida del HCPremium:");

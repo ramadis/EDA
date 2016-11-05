@@ -1,30 +1,31 @@
 package flow;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class QuickSolution {
 
 	private static int FILS;
 	private static int COLS;
 	
-	private static List<Point> FIRST_NODES;
+	private static List<Point[]> NODES;
 	
 	private static Solution2 SOLUTION;
 	
 	private static int[][] DIRECTIONS = {{-1,0},{0,1},{1,0},{0,-1}};
 	
-	private static int HIGHEST_VALUE;
-	
 	private static Point[][] MATRIX;
 	
-	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, int precision) {
+	private static MyTimer TIMER;
+	
+	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, int precision, MyTimer timer) {
 		FILS = fils;
 		COLS = cols;
 		
-		FIRST_NODES = new ArrayList<>();
+		NODES = new ArrayList<>();
 		
-		HIGHEST_VALUE = 0;
 		MATRIX = new Point[FILS][COLS];
 		SOLUTION = null;
 		
@@ -37,21 +38,34 @@ public class QuickSolution {
 				if (value != 0) {
 					point.value = value;
 					point.is_node = true;
+					Point[] pair_node = new Point[2];
 					if (!values.contains(value)) {
-						FIRST_NODES.add(point);
+						pair_node[0] = point;
+						NODES.add(pair_node);
 						values.add(value);
 					}
-					else
+					else {
 						point.is_end_node = true;
+						for (Point[] p : NODES) {
+							if (p[0].value == value)
+								NODES.get(NODES.indexOf(p))[1] = point;
+						}
+					}
 				}
-				if (value > HIGHEST_VALUE)
-					HIGHEST_VALUE = value;
 				MATRIX[i][j] = point;
 			}
 		}
 		
-		findPathPoint(0, FIRST_NODES.get(0), precision);
-		return SOLUTION.matrix;
+		long seed = System.nanoTime();
+		Collections.shuffle(NODES, new Random(seed));
+		
+		if (!timer.finished()) {
+			TIMER = timer;
+			findPathPoint(0, NODES.get(0)[0], precision);
+		}
+		if (SOLUTION != null)
+			return SOLUTION.matrix;
+		return MATRIX;
 	}
 	
 	private static boolean findPathPoint(int node_index, Point current, int precision) {
@@ -59,6 +73,9 @@ public class QuickSolution {
 		int nextCol;
 		
 		for (int i = 0; i < 4; i++) {
+			
+			if (TIMER.finished())
+				return true;
 			
 			nextFil = current.fil + DIRECTIONS[i][0];
 			nextCol = current.col + DIRECTIONS[i][1];
@@ -68,11 +85,11 @@ public class QuickSolution {
 			if (!isOutOfBounds(nextFil, nextCol)) {
 				Point next = MATRIX[nextFil][nextCol];
 				
-				if(next.is_end_node && (next.value == FIRST_NODES.get(node_index).value))
+				if(next.is_end_node && (next.value == NODES.get(node_index)[0].value))
 					isEnd = true;
 				
 				if (isEnd) {
-					if (next.value == HIGHEST_VALUE) {
+					if (node_index + 1 == NODES.size()) {
 						precision--;
 						int emptyCells = getEmptyCells();
 						Solution2 new_sol = new Solution2(emptyCells, MATRIX, FILS, COLS);
@@ -81,7 +98,7 @@ public class QuickSolution {
 						if (emptyCells == 0 || precision == 0)
 							return true;
 					}
-					if (node_index + 1 != FIRST_NODES.size() && findPathPoint(node_index + 1, FIRST_NODES.get(node_index + 1), precision))
+					if (node_index + 1 != NODES.size() && findPathPoint(node_index + 1, NODES.get(node_index + 1)[0], precision))
 						return true;
 				}
 				
