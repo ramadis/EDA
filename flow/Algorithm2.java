@@ -85,10 +85,7 @@ public class Algorithm2 {
 				}
 				
 				if (next.value == 0) {
-					int factor = 1;
-					if (current.is_node)
-						factor = 10;
-					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value * factor;
+					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					if (findPathPoint(node_index, next)) {
 						return true;
 					}
@@ -124,10 +121,10 @@ public class Algorithm2 {
 		}
 		for (int i = 0; i < fils; i++) {
 			for (int j = 0; j < cols; j++) {
-				if (matrix[i][j].value >= 10)
-					System.out.print(matrix[i][j].value + " ");
-				else
+				if (matrix[i][j].is_node || matrix[i][j].value == 0)
 					System.out.print(matrix[i][j].value + "  ");
+				else
+					System.out.print((matrix[i][j].value * 10) + " ");
 			}
 			System.out.println("");
 		}
@@ -140,9 +137,6 @@ public class Algorithm2 {
 		}
 		for (int i = 0; i < fils; i++) {
 			for (int j = 0; j < cols; j++) {
-				if (matrix[i][j] >= 10)
-					System.out.print(matrix[i][j] + " ");
-				else
 					System.out.print(matrix[i][j] + "  ");
 			}
 			System.out.println("");

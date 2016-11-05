@@ -86,10 +86,7 @@ public class QuickSolution {
 				}
 				
 				if (next.value == 0) {
-					int factor = 1;
-					if (current.is_node)
-						factor = 10;
-					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value * factor;
+					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					if (findPathPoint(node_index, next, precision)) {
 						return true;
 					}

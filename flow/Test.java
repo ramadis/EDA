@@ -31,6 +31,7 @@ public class Test {
 		System.out.println("");
 		*/
 		
+		/*
 		for (int i = 0; i < examples.size(); i++) {
 			fils = examples.get(i).fils;
 			cols = examples.get(i).cols;
@@ -45,6 +46,28 @@ public class Test {
 			long total_time = System.currentTimeMillis() - start_time;
 			
 			System.out.println("Salida del algoritmo2:");
+			Algorithm2.printMatrix(fils, cols, solution);
+			System.out.println("");
+			
+			System.out.println("Tiempo total de ejecucion: " + total_time);
+			System.out.println("");
+		}
+		*/
+		
+		for (int i = 0; i < examples.size(); i++) {
+			fils = examples.get(i).fils;
+			cols = examples.get(i).cols;
+			matrix = examples.get(i).matrix;
+			
+			System.out.println("Entrada del HC:" + " problema: " + i);
+			Algorithm2.printMatrix(fils, cols, matrix);
+			System.out.println("");
+			
+			long start_time = System.currentTimeMillis();
+			solution = HCPremium.solve(fils, cols, matrix, 2);
+			long total_time = System.currentTimeMillis() - start_time;
+			
+			System.out.println("Salida del HCPremium:");
 			Algorithm2.printMatrix(fils, cols, solution);
 			System.out.println("");
 			
