@@ -26,6 +26,7 @@ public class Algorithm2 {
 		
 		HIGHEST_VALUE = 0;
 		MATRIX = new Point[FILS][COLS];
+		SOLUTION = null;
 		
 		List<Integer> values = new ArrayList<>();
 		
@@ -49,8 +50,7 @@ public class Algorithm2 {
 			}
 		}
 		
-		if (findPathPoint(0, FIRST_NODES.get(0)))
-			return SOLUTION.matrix;
+		findPathPoint(0, FIRST_NODES.get(0));
 		return SOLUTION.matrix;
 	}
 	
@@ -74,11 +74,11 @@ public class Algorithm2 {
 				if (isEnd) {
 					if (next.value == HIGHEST_VALUE) {
 						int emptyCells = getEmptyCells();
-						Solution2 new_sol = new Solution2(emptyCells, MATRIX);
-						if (emptyCells == 0 || (SOLUTION == null || new_sol.freeCellCount < SOLUTION.freeCellCount)) {
+						Solution2 new_sol = new Solution2(emptyCells, MATRIX, FILS, COLS);
+						if (SOLUTION == null || new_sol.freeCellCount < SOLUTION.freeCellCount)
 							SOLUTION = new_sol;
+						if (emptyCells == 0)
 							return true;
-						}
 					}
 					if (node_index + 1 != FIRST_NODES.size() && findPathPoint(node_index + 1, FIRST_NODES.get(node_index + 1)))
 						return true;
@@ -128,6 +128,22 @@ public class Algorithm2 {
 					System.out.print(matrix[i][j].value + " ");
 				else
 					System.out.print(matrix[i][j].value + "  ");
+			}
+			System.out.println("");
+		}
+	}
+	
+	public static void printMatrix(int fils, int cols, int[][] matrix) {
+		if (matrix == null) {
+			System.out.println("Se ha cometido un error");
+			return;
+		}
+		for (int i = 0; i < fils; i++) {
+			for (int j = 0; j < cols; j++) {
+				if (matrix[i][j] >= 10)
+					System.out.print(matrix[i][j] + " ");
+				else
+					System.out.print(matrix[i][j] + "  ");
 			}
 			System.out.println("");
 		}

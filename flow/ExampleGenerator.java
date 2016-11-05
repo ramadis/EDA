@@ -140,7 +140,7 @@ public class ExampleGenerator {
 							{0,0,0,0,0,0,0,0,0,0,0,5},
 							{0,0,0,0,0,0,0,0,0,0,1,7},
 							{0,0,0,0,0,0,0,0,6,0,0,0}};
-
+	
 	static int fils12 = 6;
 	static int cols12 = 6;
 	static int[][] matrix12 =

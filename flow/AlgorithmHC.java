@@ -137,14 +137,11 @@ public class AlgorithmHC {
 
 
 
-    public static int[][] solve(int fils, int cols, int[][] matrix, long total_time) {
+    public static int[][] solve(int fils, int cols, int[][] matrix, int reps) {
         FILS = fils;
         COLS = cols;
         nodes = new ArrayList<>();
         HIGHEST_VALUE = 0;
-
-        long my_time_start = System.currentTimeMillis();
-        long my_time_current = 0;
 
         pSolution = new PartialSolution(getEmptyCells(matrix), 0, matrix);
         List<Integer> values = new ArrayList<>();
@@ -162,8 +159,8 @@ public class AlgorithmHC {
                 }
             }
         }
-        while (total_time - my_time_current > 0) {
-            my_time_current = System.currentTimeMillis() - my_time_start;
+
+        for(int k=0; k<reps; k++) {
 
             Set<FlowState> visited = new HashSet<>();
             Queue<FlowState> queue = new LinkedList<>();

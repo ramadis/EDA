@@ -116,7 +116,7 @@ public class HillClimbing {
 			if (END_DIR != null && (rand_int = r.nextInt(2)) == 0) {
 				if (END_DIR.value == HIGHEST_VALUE) {
 					int emptyCells = getEmptyCells();
-					Solution2 new_sol = new Solution2(emptyCells, AUX_MATRIX);
+					Solution2 new_sol = new Solution2(emptyCells, AUX_MATRIX, FILS, COLS);
 					if (emptyCells == 0 || (SOLUTION == null || new_sol.freeCellCount < SOLUTION.freeCellCount)) {
 						SOLUTION = new_sol;
 						if (emptyCells == 0) {
