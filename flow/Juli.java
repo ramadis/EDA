@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class QuickSolution {
+public class Juli {
 
 	private static int FILS;
 	private static int COLS;
@@ -13,8 +13,6 @@ public class QuickSolution {
 	private static List<Point[]> NODES;
 	
 	private static Solution2 SOLUTION;
-	
-	private static int[][] DIRECTIONS = {{-1,0},{0,1},{1,0},{0,-1}};
 	
 	private static Point[][] MATRIX;
 	
@@ -72,13 +70,16 @@ public class QuickSolution {
 		int nextFil;
 		int nextCol;
 		
-		for (int i = 0; i < 4; i++) {
-			
+		Point end = NODES.get(node_index)[1];
+		int[][] directions = new int[4][2];
+		directions = getDirections(current, end, directions);
+		
+		for (int i = 0; i < 4; i++) {	
 			if (TIMER.finished())
 				return true;
 			
-			nextFil = current.fil + DIRECTIONS[i][0];
-			nextCol = current.col + DIRECTIONS[i][1];
+			nextFil = current.fil + directions[i][0];
+			nextCol = current.col + directions[i][1];
 			
 			boolean isEnd = false;
 			
@@ -131,6 +132,75 @@ public class QuickSolution {
 			}
 		}
 		return resp;
+	}
+	
+	private static int[][] getDirections(Point current, Point end, int[][] directions) {
+		
+		if (end.fil < current.fil) {
+			directions[0][0] = -1;
+			directions[0][1] = 0;
+			
+			if (end.col <= current.col) {
+				directions[1][0] = 0;
+				directions[1][1] = -1;
+				
+				directions[2][0] = 0;
+				directions[2][1] = 1;
+			}
+			else if (end.col > current.col) {
+				directions[1][0] = 0;
+				directions[1][1] = 1;
+				
+				directions[2][0] = 0;
+				directions[2][1] = -1;
+			}
+			directions[3][0] = 1;
+			directions[3][1] = 0;
+		}
+		else if (end.fil >= current.fil) {
+			directions[0][0] = 1;
+			directions[0][1] = 0;
+			
+			if (end.col < current.col) {
+				directions[1][0] = 0;
+				directions[1][1] = -1;
+				
+				directions[2][0] = 0;
+				directions[2][1] = 1;
+			}
+			else if (end.col > current.col) {
+				directions[1][0] = 0;
+				directions[1][1] = 1;
+				
+				directions[2][0] = 0;
+				directions[2][1] = -1;
+			}
+			directions[3][0] = -1;
+			directions[3][1] = 0;
+		}
+		else if (end.fil == current.fil) {
+			if (end.col <= current.col) {
+				directions[0][0] = 0;
+				directions[0][1] = -1;
+				
+				directions[3][0] = 0;
+				directions[3][1] = 1;
+			}
+			else if (end.col > current.col) {
+				directions[0][0] = 0;
+				directions[0][1] = 1;
+				
+				directions[3][0] = 0;
+				directions[3][1] = -1;
+			}
+			directions[1][0] = -1;
+			directions[1][1] = 0;
+			
+			directions[2][0] = 1;
+			directions[2][1] = 0;
+		}
+		
+		return directions;
 	}
 	
 }
