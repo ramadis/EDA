@@ -64,14 +64,15 @@ public class Test {
 			System.out.println("");
 			
 			long start_time = System.currentTimeMillis();
-			solution = HCPremium.solve(fils, cols, matrix, 100);
+			//solution = Algorithm2.solve(fils, cols, matrix);
+			solution = HCPremium.solve(fils, cols, matrix, 4000);
 			long total_time = System.currentTimeMillis() - start_time;
 			
 			System.out.println("Salida del HCPremium:");
 			Algorithm2.printMatrix(fils, cols, solution);
 			System.out.println("");
 			
-			System.out.println("Tiempo total de ejecucion: " + total_time);
+			System.out.println("Tiempo total de ejecucion: " + total_time + " ms");
 			System.out.println("");
 		}
 		

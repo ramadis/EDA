@@ -17,12 +17,23 @@ public class HCPremium {
 		Solution2 other_solution = null;
 		
 		while (!TIMER.finished()) {
-			quick_solution = QuickSolution.solve(fils, cols, initial_matrix, 1, TIMER);
+			quick_solution = Juli.solve(fils, cols, initial_matrix, 1, TIMER);
 			
-			if (TIMER.finished())
-				return quick_solution;
+			if (TIMER.finished()) {
+				if (best_solution == null)
+					return quick_solution;
+				else
+					return best_solution.matrix;
+			}
+				
 			
-			while (findEmptyPairs(quick_solution));
+			System.out.println("");
+			Algorithm2.printMatrix(fils, cols, quick_solution);
+			System.out.println("");
+			
+			while (findEmptyPairs(quick_solution)) {
+				System.out.println("CHAU");
+			};
 			other_solution = new Solution2(getEmptyCells(fils, cols, quick_solution), quick_solution, fils, cols);
 			
 			if (best_solution == null || (other_solution.freeCellCount < best_solution.freeCellCount))

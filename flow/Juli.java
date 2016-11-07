@@ -12,7 +12,7 @@ public class Juli {
 	
 	private static List<Point[]> NODES;
 	
-	private static Solution2 SOLUTION;
+	private static PartialSolution SOLUTION;
 	
 	private static Point[][] MATRIX;
 	
@@ -25,7 +25,6 @@ public class Juli {
 		NODES = new ArrayList<>();
 		
 		MATRIX = new Point[FILS][COLS];
-		SOLUTION = null;
 		
 		List<Integer> values = new ArrayList<>();
 		
@@ -54,6 +53,8 @@ public class Juli {
 			}
 		}
 		
+		SOLUTION = new PartialSolution(getEmptyCells(), -1, MATRIX, fils, cols);
+		
 		long seed = System.nanoTime();
 		Collections.shuffle(NODES, new Random(seed));
 		
@@ -61,9 +62,7 @@ public class Juli {
 			TIMER = timer;
 			findPathPoint(0, NODES.get(0)[0], precision);
 		}
-		if (SOLUTION != null)
-			return SOLUTION.matrix;
-		return MATRIX;
+		return SOLUTION.matrix;
 	}
 	
 	private static boolean findPathPoint(int node_index, Point current, int precision) {
@@ -73,7 +72,13 @@ public class Juli {
 		Point end = NODES.get(node_index)[1];
 		int[][] directions = new int[4][2];
 		directions = getDirections(current, end, directions);
-		
+		/*
+		System.out.println("");
+		System.out.println("current: (" + current.fil + "," + current.col + "), " + "directions: (" + directions[0][0] + "," + directions[0][1] + ") (" + directions[1][0] + "," + directions[1][1] + ") (" + directions[2][0] + "," + directions[2][1] + ") (" + directions[3][0] + "," + directions[3][1] + ").");
+		Algorithm2.printMatrix(FILS, COLS, SOLUTION.matrix);
+		System.out.println("");
+		Algorithm2.printMatrix(FILS, COLS, MATRIX);
+		*/
 		for (int i = 0; i < 4; i++) {	
 			if (TIMER.finished())
 				return true;
@@ -92,14 +97,20 @@ public class Juli {
 				if (isEnd) {
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
-						Solution2 new_sol = new Solution2(emptyCells, MATRIX, FILS, COLS);
-						if (SOLUTION == null || new_sol.freeCellCount < SOLUTION.freeCellCount) {
+						PartialSolution new_sol = new PartialSolution(emptyCells, node_index, MATRIX, FILS, COLS);
+						if (new_sol.freeCellCount < SOLUTION.freeCellCount) {
 							SOLUTION = new_sol;
 							precision --;
 						}
 						if (emptyCells == 0 || precision == 0)
 							return true;
 					}
+					
+					else if(node_index > SOLUTION.node_index) {
+		                PartialSolution new_sol = new PartialSolution(getEmptyCells(), node_index, MATRIX, FILS, COLS);
+		                SOLUTION = new_sol;
+		            }
+					
 					if (node_index + 1 != NODES.size() && findPathPoint(node_index + 1, NODES.get(node_index + 1)[0], precision))
 						return true;
 				}
@@ -157,11 +168,11 @@ public class Juli {
 			directions[3][0] = 1;
 			directions[3][1] = 0;
 		}
-		else if (end.fil >= current.fil) {
+		else if (end.fil > current.fil) {
 			directions[0][0] = 1;
 			directions[0][1] = 0;
 			
-			if (end.col < current.col) {
+			if (end.col <= current.col) {
 				directions[1][0] = 0;
 				directions[1][1] = -1;
 				
