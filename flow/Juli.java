@@ -95,6 +95,12 @@ public class Juli {
 					isEnd = true;
 				
 				if (isEnd) {
+					
+					if (findLockedNode(node_index)) {
+						MATRIX[current.fil][current.col].value = 0;
+						return false;
+					}
+					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
 						PartialSolution new_sol = new PartialSolution(emptyCells, node_index, MATRIX, FILS, COLS);
@@ -212,6 +218,32 @@ public class Juli {
 		}
 		
 		return directions;
+	}
+	
+	private static boolean findLockedNode(int index_node) {
+		int[][] total_directions = {{-1,0},{1,0},{0,1},{0,-1}};
+		boolean is_ok = false;
+		
+		for (int i = index_node + 1; i < NODES.size(); i ++) {
+			Point current = NODES.get(i)[0];
+			int next_fil;
+			int next_col;
+			is_ok = false;
+			
+			for (int j = 0; j < 4 && !is_ok; j++) {
+				next_fil = current.fil + total_directions[j][0];
+				next_col = current.col + total_directions[j][1];
+				if (!isOutOfBounds(next_fil, next_col)) {
+					if (MATRIX[next_fil][next_col].value == 0 || MATRIX[next_fil][next_col].value == current.value)
+						is_ok = true;
+				}
+			}
+			
+			if (!is_ok)
+				return true;
+		}
+		
+		return false;
 	}
 	
 }
