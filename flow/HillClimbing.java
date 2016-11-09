@@ -2,7 +2,7 @@ package flow;
 
 import java.util.Random;
 
-public class HCPremium {
+public class HillClimbing {
 	
 	private static int FILS;
 	private static int COLS;
@@ -15,11 +15,11 @@ public class HCPremium {
 		TIMER = new MyTimer(top_time);
 		
 		Point[][] quick_solution = null;
-		Solution2 best_solution = null;
-		Solution2 other_solution = null;
+		Solution best_solution = null;
+		Solution other_solution = null;
 		
 		while (!TIMER.finished()) {
-			quick_solution = Juli.solve(fils, cols, initial_matrix, 1, TIMER);
+			quick_solution = QuickSolutionChase.solve(fils, cols, initial_matrix, 1, TIMER);
 			
 			if (TIMER.finished()) {
 				if (best_solution == null)
@@ -27,16 +27,9 @@ public class HCPremium {
 				else
 					return best_solution.matrix;
 			}
-				
 			
-			System.out.println("");
-			Algorithm2.printMatrix(fils, cols, quick_solution);
-			System.out.println("");
-			
-			while (findEmptyPairs(quick_solution)) {
-				System.out.println("CHAU");
-			};
-			other_solution = new Solution2(getEmptyCells(fils, cols, quick_solution), quick_solution, fils, cols);
+			while (findEmptyPairs(quick_solution));
+			other_solution = new Solution(getEmptyCells(fils, cols, quick_solution), quick_solution, fils, cols);
 			
 			if (best_solution == null || (other_solution.freeCellCount < best_solution.freeCellCount))
 				best_solution = other_solution;

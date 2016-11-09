@@ -2,17 +2,17 @@ package flow;
 
 public class MyTimer {
 
-	private static long top_time;
-	private static long start_time;
+	private static long TOP_TIME;
+	private static long START_TIME;
 	
 	public MyTimer(long top_time) {
-		this.top_time = top_time;
-		this.start_time = System.currentTimeMillis();
+		TOP_TIME = top_time;
+		START_TIME = System.currentTimeMillis();
 	}
 	
 	public boolean finished() {
 		long current_time = System.currentTimeMillis();
-		if (current_time - start_time > top_time)
+		if (current_time - START_TIME > TOP_TIME)
 			return true;
 		return false;
 	}

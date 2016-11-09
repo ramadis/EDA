@@ -5,14 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Juli {
+public class QuickSolutionChase {
 
 	private static int FILS;
 	private static int COLS;
 	
 	private static List<Point[]> NODES;
 	
-	private static PartialSolution SOLUTION;
+	private static Solution SOLUTION;
 	
 	private static Point[][] MATRIX;
 	
@@ -53,7 +53,7 @@ public class Juli {
 			}
 		}
 		
-		SOLUTION = new PartialSolution(getEmptyCells(), -1, MATRIX, fils, cols);
+		SOLUTION = new Solution(getEmptyCells(), -1, MATRIX, fils, cols);
 		
 		long seed = System.nanoTime();
 		Collections.shuffle(NODES, new Random(seed));
@@ -72,13 +72,7 @@ public class Juli {
 		Point end = NODES.get(node_index)[1];
 		int[][] directions = new int[4][2];
 		directions = getDirections(current, end, directions);
-		/*
-		System.out.println("");
-		System.out.println("current: (" + current.fil + "," + current.col + "), " + "directions: (" + directions[0][0] + "," + directions[0][1] + ") (" + directions[1][0] + "," + directions[1][1] + ") (" + directions[2][0] + "," + directions[2][1] + ") (" + directions[3][0] + "," + directions[3][1] + ").");
-		Algorithm2.printMatrix(FILS, COLS, SOLUTION.matrix);
-		System.out.println("");
-		Algorithm2.printMatrix(FILS, COLS, MATRIX);
-		*/
+		
 		for (int i = 0; i < 4; i++) {	
 			if (TIMER.finished())
 				return true;
@@ -101,9 +95,11 @@ public class Juli {
 						return false;
 					}
 					
+					current.setDirection(directions[i][0], directions[i][1]);
+					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
-						PartialSolution new_sol = new PartialSolution(emptyCells, node_index, MATRIX, FILS, COLS);
+						Solution new_sol = new Solution(emptyCells, node_index, MATRIX, FILS, COLS);
 						if (new_sol.freeCellCount < SOLUTION.freeCellCount) {
 							SOLUTION = new_sol;
 							precision --;
@@ -113,7 +109,7 @@ public class Juli {
 					}
 					
 					else if(node_index > SOLUTION.node_index) {
-		                PartialSolution new_sol = new PartialSolution(getEmptyCells(), node_index, MATRIX, FILS, COLS);
+		                Solution new_sol = new Solution(getEmptyCells(), node_index, MATRIX, FILS, COLS);
 		                SOLUTION = new_sol;
 		            }
 					
@@ -123,6 +119,7 @@ public class Juli {
 				
 				if (next.value == 0) {
 					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
+					current.setDirection(directions[i][0], directions[i][1]);
 					if (findPathPoint(node_index, next, precision)) {
 						return true;
 					}
@@ -131,6 +128,7 @@ public class Juli {
 		}
 		if (!current.is_node)
 			MATRIX[current.fil][current.col].value = 0;
+		current.clearDirection();
 		return false;
 	}
 	

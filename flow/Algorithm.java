@@ -1,11 +1,9 @@
 package flow;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-public class QuickSolution {
+public class Algorithm {
 
 	private static int FILS;
 	private static int COLS;
@@ -18,9 +16,7 @@ public class QuickSolution {
 	
 	private static Point[][] MATRIX;
 	
-	private static MyTimer TIMER;
-	
-	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, int precision, MyTimer timer) {
+	public static Point[][] solve(int fils, int cols, int[][] initial_matrix) {
 		FILS = fils;
 		COLS = cols;
 		
@@ -55,25 +51,17 @@ public class QuickSolution {
 			}
 		}
 		
-		SOLUTION = new Solution(getEmptyCells(), -1, MATRIX, fils, cols);
+		SOLUTION = new Solution(getEmptyCells(), MATRIX, fils, cols);
 		
-		long seed = System.nanoTime();
-		Collections.shuffle(NODES, new Random(seed));
-		
-		if (!timer.finished()) {
-			TIMER = timer;
-			findPathPoint(0, NODES.get(0)[0], precision);
-		}
+		findPathPoint(0, NODES.get(0)[0]);
 		return SOLUTION.matrix;
 	}
 	
-	private static boolean findPathPoint(int node_index, Point current, int precision) {
+	private static boolean findPathPoint(int node_index, Point current) {
 		int nextFil;
 		int nextCol;
 		
-		for (int i = 0; i < 4; i++) {	
-			if (TIMER.finished())
-				return true;
+		for (int i = 0; i < 4; i++) {
 			
 			nextFil = current.fil + DIRECTIONS[i][0];
 			nextCol = current.col + DIRECTIONS[i][1];
@@ -87,38 +75,23 @@ public class QuickSolution {
 					isEnd = true;
 				
 				if (isEnd) {
-					
-					if (findLockedNode(node_index)) {
-						MATRIX[current.fil][current.col].value = 0;
-						return false;
-					}
-					
 					current.setDirection(DIRECTIONS[i][0], DIRECTIONS[i][1]);
-					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
-						Solution new_sol = new Solution(emptyCells, node_index, MATRIX, FILS, COLS);
-						if (new_sol.freeCellCount < SOLUTION.freeCellCount) {
+						Solution new_sol = new Solution(emptyCells, MATRIX, FILS, COLS);
+						if (new_sol.freeCellCount < SOLUTION.freeCellCount)
 							SOLUTION = new_sol;
-							precision --;
-						}
-						if (emptyCells == 0 || precision == 0)
+						if (emptyCells == 0)
 							return true;
 					}
-					
-					else if(node_index > SOLUTION.node_index) {
-		                Solution new_sol = new Solution(getEmptyCells(), node_index, MATRIX, FILS, COLS);
-		                SOLUTION = new_sol;
-		            }
-					
-					if (node_index + 1 != NODES.size() && findPathPoint(node_index + 1, NODES.get(node_index + 1)[0], precision))
+					if (node_index + 1 != NODES.size() && findPathPoint(node_index + 1, NODES.get(node_index + 1)[0]))
 						return true;
 				}
 				
 				if (next.value == 0) {
 					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					current.setDirection(DIRECTIONS[i][0], DIRECTIONS[i][1]);
-					if (findPathPoint(node_index, next, precision)) {
+					if (findPathPoint(node_index, next)) {
 						return true;
 					}
 				}
@@ -147,29 +120,59 @@ public class QuickSolution {
 		return resp;
 	}
 	
-	private static boolean findLockedNode(int index_node) {
-		boolean is_ok = false;
-		
-		for (int i = index_node + 1; i < NODES.size(); i ++) {
-			Point current = NODES.get(i)[0];
-			int next_fil;
-			int next_col;
-			is_ok = false;
-			
-			for (int j = 0; j < 4 && !is_ok; j++) {
-				next_fil = current.fil + DIRECTIONS[j][0];
-				next_col = current.col + DIRECTIONS[j][1];
-				if (!isOutOfBounds(next_fil, next_col)) {
-					if (MATRIX[next_fil][next_col].value == 0 || MATRIX[next_fil][next_col].value == current.value)
-						is_ok = true;
-				}
-			}
-			
-			if (!is_ok)
-				return true;
+	public static void printMatrix(int fils, int cols, Point[][] matrix) {
+		if (matrix == null) {
+			System.out.println("Se ha cometido un error");
+			return;
 		}
-		
-		return false;
+		for (int i = 0; i < fils; i++) {
+			for (int j = 0; j < cols; j++) {
+				if (matrix[i][j].is_node || matrix[i][j].value == 0)
+					System.out.print(matrix[i][j].value + "  ");
+				else
+					System.out.print((matrix[i][j].value * 10) + " ");
+			}
+			System.out.println("");
+		}
 	}
 	
+	public static void printMatrix(int fils, int cols, int[][] matrix) {
+		if (matrix == null) {
+			System.out.println("Se ha cometido un error");
+			return;
+		}
+		for (int i = 0; i < fils; i++) {
+			for (int j = 0; j < cols; j++) {
+					System.out.print(matrix[i][j] + "  ");
+			}
+			System.out.println("");
+		}
+	}
+	
+	public static void printMatrixWithDirecs(int fils, int cols, Point[][] matrix) {
+		if (matrix == null) {
+			System.out.println("Se ha producido un error");
+			return;
+		}
+		for (int i = 0; i < FILS; i ++) {
+			for (int j = 0; j < COLS; j++) {
+				Point p = matrix[i][j];
+				System.out.print(p.value);
+				if (p.direction_fil == 0 && p.direction_col == 1)
+					System.out.print(" > ");
+				else
+					System.out.print("   ");
+			}
+			System.out.println("");
+			for (int j = 0; j < COLS; j++) {
+				Point p = matrix[i][j];
+				if (p.direction_fil == 1 && p.direction_col == 0)
+					System.out.print("v   ");
+				else
+					System.out.print("    ");
+			}
+			System.out.println("");
+		}
+	}
+		
 }

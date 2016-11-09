@@ -3,18 +3,14 @@ package flow;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Algorithm2 {
+public class AlgorithmChase {
 
 	private static int FILS;
 	private static int COLS;
 	
-	private static List<Point> FIRST_NODES;
+	private static List<Point[]> NODES;
 	
-	private static Solution2 SOLUTION;
-	
-	private static int[][] DIRECTIONS = {{-1,0},{0,1},{1,0},{0,-1}};
-	
-	private static int HIGHEST_VALUE;
+	private static Solution SOLUTION;
 	
 	private static Point[][] MATRIX;
 	
@@ -22,11 +18,9 @@ public class Algorithm2 {
 		FILS = fils;
 		COLS = cols;
 		
-		FIRST_NODES = new ArrayList<>();
+		NODES = new ArrayList<>();
 		
-		HIGHEST_VALUE = 0;
 		MATRIX = new Point[FILS][COLS];
-		SOLUTION = null;
 		
 		List<Integer> values = new ArrayList<>();
 		
@@ -37,20 +31,27 @@ public class Algorithm2 {
 				if (value != 0) {
 					point.value = value;
 					point.is_node = true;
+					Point[] pair_node = new Point[2];
 					if (!values.contains(value)) {
-						FIRST_NODES.add(point);
+						pair_node[0] = point;
+						NODES.add(pair_node);
 						values.add(value);
 					}
-					else
+					else {
 						point.is_end_node = true;
+						for (Point[] p : NODES) {
+							if (p[0].value == value)
+								NODES.get(NODES.indexOf(p))[1] = point;
+						}
+					}
 				}
-				if (value > HIGHEST_VALUE)
-					HIGHEST_VALUE = value;
 				MATRIX[i][j] = point;
 			}
 		}
 		
-		findPathPoint(0, FIRST_NODES.get(0));
+		SOLUTION = new Solution(getEmptyCells(), MATRIX, fils, cols);
+		
+		findPathPoint(0, NODES.get(0)[0]);
 		return SOLUTION.matrix;
 	}
 	
@@ -58,29 +59,33 @@ public class Algorithm2 {
 		int nextFil;
 		int nextCol;
 		
+		Point end = NODES.get(node_index)[1];
+		int[][] directions = new int[4][2];
+		directions = getDirections(current, end, directions);
+		
 		for (int i = 0; i < 4; i++) {
 			
-			nextFil = current.fil + DIRECTIONS[i][0];
-			nextCol = current.col + DIRECTIONS[i][1];
+			nextFil = current.fil + directions[i][0];
+			nextCol = current.col + directions[i][1];
 			
 			boolean isEnd = false;
 			
 			if (!isOutOfBounds(nextFil, nextCol)) {
 				Point next = MATRIX[nextFil][nextCol];
 				
-				if(next.is_end_node && (next.value == FIRST_NODES.get(node_index).value))
+				if(next.is_end_node && (next.value == NODES.get(node_index)[0].value))
 					isEnd = true;
 				
 				if (isEnd) {
-					if (next.value == HIGHEST_VALUE) {
+					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
-						Solution2 new_sol = new Solution2(emptyCells, MATRIX, FILS, COLS);
-						if (SOLUTION == null || new_sol.freeCellCount < SOLUTION.freeCellCount)
+						Solution new_sol = new Solution(emptyCells, MATRIX, FILS, COLS);
+						if (new_sol.freeCellCount < SOLUTION.freeCellCount)
 							SOLUTION = new_sol;
 						if (emptyCells == 0)
 							return true;
 					}
-					if (node_index + 1 != FIRST_NODES.size() && findPathPoint(node_index + 1, FIRST_NODES.get(node_index + 1)))
+					if (node_index + 1 != NODES.size() && findPathPoint(node_index + 1, NODES.get(node_index + 1)[0]))
 						return true;
 				}
 				
@@ -141,6 +146,75 @@ public class Algorithm2 {
 			}
 			System.out.println("");
 		}
+	}
+	
+private static int[][] getDirections(Point current, Point end, int[][] directions) {
+		
+		if (end.fil < current.fil) {
+			directions[0][0] = -1;
+			directions[0][1] = 0;
+			
+			if (end.col <= current.col) {
+				directions[1][0] = 0;
+				directions[1][1] = -1;
+				
+				directions[2][0] = 0;
+				directions[2][1] = 1;
+			}
+			else if (end.col > current.col) {
+				directions[1][0] = 0;
+				directions[1][1] = 1;
+				
+				directions[2][0] = 0;
+				directions[2][1] = -1;
+			}
+			directions[3][0] = 1;
+			directions[3][1] = 0;
+		}
+		else if (end.fil > current.fil) {
+			directions[0][0] = 1;
+			directions[0][1] = 0;
+			
+			if (end.col <= current.col) {
+				directions[1][0] = 0;
+				directions[1][1] = -1;
+				
+				directions[2][0] = 0;
+				directions[2][1] = 1;
+			}
+			else if (end.col > current.col) {
+				directions[1][0] = 0;
+				directions[1][1] = 1;
+				
+				directions[2][0] = 0;
+				directions[2][1] = -1;
+			}
+			directions[3][0] = -1;
+			directions[3][1] = 0;
+		}
+		else if (end.fil == current.fil) {
+			if (end.col <= current.col) {
+				directions[0][0] = 0;
+				directions[0][1] = -1;
+				
+				directions[3][0] = 0;
+				directions[3][1] = 1;
+			}
+			else if (end.col > current.col) {
+				directions[0][0] = 0;
+				directions[0][1] = 1;
+				
+				directions[3][0] = 0;
+				directions[3][1] = -1;
+			}
+			directions[1][0] = -1;
+			directions[1][1] = 0;
+			
+			directions[2][0] = 1;
+			directions[2][1] = 0;
+		}
+		
+		return directions;
 	}
 		
 }
