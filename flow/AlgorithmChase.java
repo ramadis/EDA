@@ -77,6 +77,8 @@ public class AlgorithmChase {
 					isEnd = true;
 				
 				if (isEnd) {
+					current.setDirection(directions[i][0], directions[i][1]);
+					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
 						Solution new_sol = new Solution(emptyCells, MATRIX, FILS, COLS);
@@ -90,6 +92,7 @@ public class AlgorithmChase {
 				}
 				
 				if (next.value == 0) {
+					current.setDirection(directions[i][0], directions[i][1]);
 					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					if (findPathPoint(node_index, next)) {
 						return true;
@@ -99,6 +102,7 @@ public class AlgorithmChase {
 		}
 		if (!current.is_node)
 			MATRIX[current.fil][current.col].value = 0;
+		current.clearDirection();
 		return false;
 	}
 	
