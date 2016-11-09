@@ -1,5 +1,7 @@
 package flow;
 
+import java.util.Random;
+
 public class HCPremium {
 	
 	private static int FILS;
@@ -74,51 +76,83 @@ public class HCPremium {
 	}
 	
 	private static boolean tryToFillVertical(Point first, Point second, Point[][] matrix) {
-		int aux_fil, aux_col;
+		Random r = new Random(System.currentTimeMillis());
+		boolean coloured;
+		int aux_fil, aux_col, randInt, new_value;
 		aux_fil = first.fil;
 		aux_col = first.col - 1;
+		coloured = false;
+		new_value = 0;
 		if (!isOutOfBounds(aux_fil, aux_col) && matrix[aux_fil][aux_col].value != 0) {
 			if (matrix[aux_fil][aux_col].value == matrix[aux_fil + 1][aux_col].value) {
-				int new_value = matrix[aux_fil][aux_col].value;
-				matrix[first.fil][first.col].value =  new_value;
-				matrix[second.fil][second.col].value = new_value;
-				return true;
+				new_value = matrix[aux_fil][aux_col].value;
+				coloured = true;
 			}
 		}
 		aux_col = first.col + 1;
 		if (!isOutOfBounds(aux_fil, aux_col) && matrix[aux_fil][aux_col].value != 0) {
 			if (matrix[aux_fil][aux_col].value == matrix[aux_fil + 1][aux_col].value) {
-				int new_value = matrix[aux_fil][aux_col].value;
-				matrix[first.fil][first.col].value =  new_value;
-				matrix[second.fil][second.col].value = new_value;
-				return true;
+				if (coloured){
+					if (matrix[aux_fil][aux_col].value != matrix[aux_fil][aux_col-2].value){
+						randInt = r.nextInt(2);
+						if (randInt == 0){
+							new_value = matrix[aux_fil][aux_col].value;
+						}
+					}
+				}
+				else {
+					new_value = matrix[aux_fil][aux_col].value;
+					coloured = true;
+				}
 			}
 		}
-		return false;
+		if (coloured){
+			matrix[first.fil][first.col].value =  new_value;
+			matrix[second.fil][second.col].value = new_value;
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	private static boolean tryToFillHorizontal(Point first, Point second, Point[][] matrix) {
-		int aux_fil, aux_col;
+		Random r = new Random(System.currentTimeMillis());
+		boolean coloured;
+		int aux_fil, aux_col, randInt, new_value;
 		aux_col = first.col;
 		aux_fil = first.fil - 1;
+		coloured = false;
+		new_value = 0;
 		if (!isOutOfBounds(aux_fil, aux_col) && matrix[aux_fil][aux_col].value != 0) {
 			if (matrix[aux_fil][aux_col].value == matrix[aux_fil][aux_col + 1].value) {
-				int new_value = matrix[aux_fil][aux_col].value;
-				matrix[first.fil][first.col].value =  new_value;
-				matrix[second.fil][second.col].value = new_value;
-				return true;
+				new_value = matrix[aux_fil][aux_col].value;
+				coloured = true;
 			}
 		}
 		aux_fil = first.fil + 1;
 		if (!isOutOfBounds(aux_fil, aux_col) && matrix[aux_fil][aux_col].value != 0) {
 			if (matrix[aux_fil][aux_col].value == matrix[aux_fil][aux_col + 1].value) {
-				int new_value = matrix[aux_fil][aux_col].value;
-				matrix[first.fil][first.col].value =  new_value;
-				matrix[second.fil][second.col].value = new_value;
-				return true;
+				if (coloured){
+					if (matrix[aux_fil][aux_col].value != matrix[aux_fil-2][aux_col].value){
+						randInt = r.nextInt(2);
+						if (randInt == 0){
+							new_value = matrix[aux_fil][aux_col].value;
+						}
+					}
+				}
+				else {
+					new_value = matrix[aux_fil][aux_col].value;
+					coloured = true;
+				}
 			}
 		}
-		return false;
+		if (coloured){
+			matrix[first.fil][first.col].value =  new_value;
+			matrix[second.fil][second.col].value = new_value;
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	private static boolean isOutOfBounds(int fil, int col) {

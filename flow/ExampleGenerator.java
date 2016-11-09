@@ -153,12 +153,12 @@ public class ExampleGenerator {
 	
 	public static List<Example> generateExamples(List<Example> examples) {
 
-		examples.add(new Example(fils0, cols0, matrix0));
-		examples.add(new Example(fils1, cols1, matrix1));
-		examples.add(new Example(fils2, cols2, matrix2));
-		examples.add(new Example(fils3, cols3, matrix3));
-		examples.add(new Example(fils4, cols4, matrix4));
-		examples.add(new Example(fils5, cols5, matrix5));
+		//examples.add(new Example(fils0, cols0, matrix0));
+		//examples.add(new Example(fils1, cols1, matrix1));
+		//examples.add(new Example(fils2, cols2, matrix2));
+		//examples.add(new Example(fils3, cols3, matrix3));
+		//examples.add(new Example(fils4, cols4, matrix4));
+		//examples.add(new Example(fils5, cols5, matrix5));
 		//examples.add(new Example(fils6, cols6, matrix6));
 		//examples.add(new Example(fils7, cols7, matrix7));
 		//examples.add(new Example(fils8, cols8, matrix8));
