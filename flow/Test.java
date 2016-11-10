@@ -34,6 +34,8 @@ public class Test {
 			
 			System.out.println("Tiempo total de ejecucion: " + total_time + " ms");
 			System.out.println("");
+
+			SimplePrinter.setUpPrinterAndPrintStuff(solution);
 		}
 		
 		/*
