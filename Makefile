@@ -8,3 +8,12 @@ approx:
 
 clean:
 	rm flow/*.class
+
+jar:
+	jar cmvf META-INF/MANIFEST.MF tpe.jar  flow/*.class
+
+run:
+	java -jar tpe.jar ./maze approx 3000
+
+runexact:
+	java -jar tpe.jar ./maze exact

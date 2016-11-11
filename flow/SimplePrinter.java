@@ -91,12 +91,11 @@ public class SimplePrinter {
 	}
 	
 	public static void disposeWindow() {
-		window.dispose();
+		//window.dispose();
 	}
 
 	public static void setUpColorMap() {
 		colors = new HashMap<>();
-		//colors.put(new Integer(0), Color.MAGENTA);
 		colors.put(new Integer(1), Color.RED);
 		colors.put(new Integer(2), Color.GREEN);
 		colors.put(new Integer(3), Color.BLUE);
@@ -105,10 +104,13 @@ public class SimplePrinter {
 		colors.put(new Integer(6), Color.LIGHT_GRAY);
 		colors.put(new Integer(7), Color.DARK_GRAY);
 		colors.put(new Integer(8), Color.ORANGE);
+		colors.put(new Integer(9), Color.MAGENTA);
 	}
 	
 	public static void setUpPrinterAndPrintStuff(Point[][] solutionMatrix) {
-		setUpWindowAndGrid();
+		if(grid == null || window == null)
+			setUpWindowAndGrid();
+		
 		setUpColorMap();
 		
 		squareSize = sWIDTH/Math.max(solutionMatrix.length, solutionMatrix[0].length);

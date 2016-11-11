@@ -23,7 +23,7 @@ public class HillClimbing {
 		Solution other_solution = null;
 		
 		while (!TIMER.finished()) {
-			quick_solution = QuickSolutionChase.solve(fils, cols, initial_matrix, 1, TIMER, true);
+			quick_solution = QuickSolutionChase.solve(fils, cols, initial_matrix, 1, TIMER, show_progress);
 			
 			if (TIMER.finished()) {
 				if (best_solution == null)
