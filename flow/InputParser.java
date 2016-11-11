@@ -43,10 +43,19 @@ public class InputParser {
 	}
 	
 	public static Point[][] runAlgorithm(int[][] matrix, String method, int top_time, boolean progress_on) {
+		Point[][] mat;		
+			
+		long start_time = System.currentTimeMillis();
 		if(method.equals("exact"))
-			return Algorithm.solve(matrix[0].length, matrix.length, matrix, progress_on);
+			mat = Algorithm.solve(matrix[0].length, matrix.length, matrix, progress_on);
 		else 
-			return HillClimbing.solve(matrix[0].length, matrix.length, matrix, top_time, progress_on);
+			mat = HillClimbing.solve(matrix[0].length, matrix.length, matrix, top_time, progress_on);
+
+
+		long total_time = System.currentTimeMillis() - start_time;
+		System.out.println("Tiempo total de ejecucion: " + total_time + " ms");
+		System.out.println("");
+		return mat;
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
