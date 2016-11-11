@@ -50,10 +50,18 @@ public class SimplePrinter {
 				if(fillCell.is_node || fillCell.is_end_node)
 					g.fillOval(cellX, cellY, squareSize, squareSize);
 				else {
-					if(fillCell.direction_fil == 0)
-						g.fillRect(cellX, cellY + squareSize/4, squareSize, squareSize/2);
-					else if(fillCell.direction_col == 0)
+					if(fillCell.direction_fil == 0) {
+						g.setColor(Color.WHITE);
 						g.fillRect(cellX + squareSize/4, cellY, squareSize/2, squareSize);
+						g.setColor(colors.get(new Integer(fillCell.value)));
+						g.fillRect(cellX, cellY + squareSize/4, squareSize, squareSize/2);
+					}
+					else if(fillCell.direction_col == 0) {
+						g.setColor(Color.WHITE);
+						g.fillRect(cellX, cellY + squareSize/4, squareSize, squareSize/2);
+						g.setColor(colors.get(new Integer(fillCell.value)));
+						g.fillRect(cellX + squareSize/4, cellY, squareSize/2, squareSize);
+					}
 				}
 			}
 			g.setColor(Color.BLACK);

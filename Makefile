@@ -17,3 +17,7 @@ run:
 
 runexact:
 	java -jar tpe.jar ./maze exact
+
+
+run2:
+	java -jar tpe.jar ./maze2 approx 5000 progress
