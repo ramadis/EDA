@@ -8,11 +8,15 @@ public class HillClimbing {
 	private static int COLS;
 	private static MyTimer TIMER;
 	
-	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, long top_time) {
+	private static boolean SHOW_PROGRESS;
+	
+	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, long top_time, boolean show_progress) {
 		
 		FILS = fils;
 		COLS = cols;
 		TIMER = new MyTimer(top_time);
+		
+		SHOW_PROGRESS = show_progress;
 		
 		Point[][] quick_solution = null;
 		Solution best_solution = null;
@@ -56,13 +60,24 @@ public class HillClimbing {
 					if (!isOutOfBounds(i, j+1) && matrix[i][j + 1].value == 0) {
 						second = new Point(i, j+1);
 						if (tryToFillHorizontal(first, second, matrix)) {
+							if (SHOW_PROGRESS) {
+								SimplePrinter.setUpPrinterAndPrintStuff(matrix);
+								TIMER.stallProgress();
+								SimplePrinter.disposeWindow();
+							}
 							changed = true;
 						}
 					}
 					else if (!isOutOfBounds(i+1, j) && matrix[i+1][j].value == 0) {
 						second = new Point(i+1, j);
-						if (tryToFillVertical(first, second, matrix))
+						if (tryToFillVertical(first, second, matrix)) {
+							if (SHOW_PROGRESS) {
+								SimplePrinter.setUpPrinterAndPrintStuff(matrix);
+								TIMER.stallProgress();
+								SimplePrinter.disposeWindow();
+							}
 							changed = true;
+						}
 					}
 				}
 			}

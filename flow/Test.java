@@ -14,7 +14,7 @@ public class Test {
 		int cols;
 		int[][] matrix;
 		Point[][] solution;	
-		
+		/*
 		for (int i = 0; i < examples.size(); i++) {
 			fils = examples.get(i).fils;
 			cols = examples.get(i).cols;
@@ -33,8 +33,8 @@ public class Test {
 
 			SimplePrinter.setUpPrinterAndPrintStuff(solution);
 		}
+		*/
 		
-		/*
 		for (int i = 0; i < examples.size(); i++) {
 			fils = examples.get(i).fils;
 			cols = examples.get(i).cols;
@@ -45,7 +45,7 @@ public class Test {
 			System.out.println("");
 			
 			long start_time = System.currentTimeMillis();
-			solution = HillClimbing.solve(fils, cols, matrix, 15000);
+			solution = HillClimbing.solve(fils, cols, matrix, 15000, true);
 			long total_time = System.currentTimeMillis() - start_time;
 			
 			System.out.println("Tiempo total de ejecucion: " + total_time + " ms");
@@ -53,7 +53,7 @@ public class Test {
 
 			SimplePrinter.setUpPrinterAndPrintStuff(solution);
 		}
-		*/
+		
 	}
 	
 }

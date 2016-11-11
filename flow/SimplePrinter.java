@@ -33,10 +33,15 @@ public class SimplePrinter {
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			Point fillCell = fillCells.get(0);
+			Point fillCell;
+			try {
+				fillCell = fillCells.get(0);
+			} catch (Exception e) {}
 			for(int h = 0; h < fillCells.size(); h++) {
 				fillCell = fillCells.get(h);
-				g.setColor(colors.get(new Integer(fillCell.value)));
+				try {
+					g.setColor(colors.get(new Integer(fillCell.value)));
+				} catch(Throwable e){}
 				int cellY = squareSize + (fillCell.fil * squareSize);
 				int cellX = squareSize + (fillCell.col * squareSize);
 				if(fillCell.value == 0)
