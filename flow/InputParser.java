@@ -44,7 +44,7 @@ public class InputParser {
 	
 	public static Point[][] runAlgorithm(int[][] matrix, String method, int top_time, boolean progress_on) {
 		if(method.equals("exact"))
-			return Algorithm.solve(matrix[0].length, matrix.length, matrix);
+			return Algorithm.solve(matrix[0].length, matrix.length, matrix, progress_on);
 		else 
 			return HillClimbing.solve(matrix[0].length, matrix.length, matrix, top_time, progress_on);
 	}
