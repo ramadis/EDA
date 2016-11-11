@@ -16,6 +16,8 @@ public class Algorithm {
 	
 	private static Point[][] MATRIX;
 	
+	private static MyTimer TIMER;
+	
 	public static Point[][] solve(int fils, int cols, int[][] initial_matrix) {
 		FILS = fils;
 		COLS = cols;
@@ -23,6 +25,8 @@ public class Algorithm {
 		NODES = new ArrayList<>();
 		
 		MATRIX = new Point[FILS][COLS];
+		
+		TIMER = new MyTimer(System.currentTimeMillis());
 		
 		List<Integer> values = new ArrayList<>();
 		
@@ -76,6 +80,10 @@ public class Algorithm {
 				
 				if (isEnd) {
 					current.setDirection(DIRECTIONS[i][0], DIRECTIONS[i][1]);
+					
+					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
+					TIMER.stallProgress();
+					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
 						Solution new_sol = new Solution(emptyCells, MATRIX, FILS, COLS);
@@ -91,6 +99,10 @@ public class Algorithm {
 				if (next.value == 0) {
 					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					current.setDirection(DIRECTIONS[i][0], DIRECTIONS[i][1]);
+					
+					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
+					TIMER.stallProgress();
+					
 					if (findPathPoint(node_index, next)) {
 						return true;
 					}

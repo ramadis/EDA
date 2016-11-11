@@ -95,6 +95,9 @@ public class QuickSolution {
 					
 					current.setDirection(DIRECTIONS[i][0], DIRECTIONS[i][1]);
 					
+					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
+					TIMER.stallProgress();
+					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
 						Solution new_sol = new Solution(emptyCells, node_index, MATRIX, FILS, COLS);
@@ -118,6 +121,10 @@ public class QuickSolution {
 				if (next.value == 0) {
 					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					current.setDirection(DIRECTIONS[i][0], DIRECTIONS[i][1]);
+					
+					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
+					TIMER.stallProgress();
+					
 					if (findPathPoint(node_index, next, precision)) {
 						return true;
 					}

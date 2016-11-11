@@ -17,4 +17,14 @@ public class MyTimer {
 		return false;
 	}
 	
+	public void stallProgress() {
+		long current_time = System.currentTimeMillis();
+		long end_time = System.currentTimeMillis();
+		
+		while (end_time - current_time < 100) {
+			end_time = System.currentTimeMillis();
+		}
+		return;
+	}
+	
 }

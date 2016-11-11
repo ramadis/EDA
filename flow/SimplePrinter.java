@@ -95,7 +95,7 @@ public class SimplePrinter {
 		colors.put(new Integer(5), Color.CYAN);
 		colors.put(new Integer(6), Color.LIGHT_GRAY);
 		colors.put(new Integer(7), Color.DARK_GRAY);
-		colors.put(new Integer(8), Color.WHITE);
+		colors.put(new Integer(8), Color.ORANGE);
 	}
 	
 	public static void setUpPrinterAndPrintStuff(Point[][] solutionMatrix) {
