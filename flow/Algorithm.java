@@ -83,6 +83,7 @@ public class Algorithm {
 					
 					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
 					TIMER.stallProgress();
+					SimplePrinter.disposeWindow();
 					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
@@ -102,6 +103,7 @@ public class Algorithm {
 					
 					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
 					TIMER.stallProgress();
+					SimplePrinter.disposeWindow();
 					
 					if (findPathPoint(node_index, next)) {
 						return true;

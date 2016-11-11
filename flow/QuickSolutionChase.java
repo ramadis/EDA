@@ -98,7 +98,7 @@ public class QuickSolutionChase {
 					current.setDirection(directions[i][0], directions[i][1]);
 					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
 					TIMER.stallProgress();
-					
+					SimplePrinter.disposeWindow();
 					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
@@ -123,8 +123,11 @@ public class QuickSolutionChase {
 				if (next.value == 0) {
 					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					current.setDirection(directions[i][0], directions[i][1]);
+					
 					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
 					TIMER.stallProgress();
+					SimplePrinter.disposeWindow();
+					
 					if (findPathPoint(node_index, next, precision)) {
 						return true;
 					}

@@ -85,6 +85,7 @@ public class AlgorithmChase {
 					
 					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
 					TIMER.stallProgress();
+					SimplePrinter.disposeWindow();
 					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
@@ -103,6 +104,7 @@ public class AlgorithmChase {
 					
 					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
 					TIMER.stallProgress();
+					SimplePrinter.disposeWindow();
 					
 					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					if (findPathPoint(node_index, next)) {

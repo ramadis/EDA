@@ -84,6 +84,10 @@ public class SimplePrinter {
 		window.add(grid);
 		window.setVisible(true);
 	}
+	
+	public static void disposeWindow() {
+		window.dispose();
+	}
 
 	public static void setUpColorMap() {
 		colors = new HashMap<>();
