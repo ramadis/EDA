@@ -20,13 +20,17 @@ public class QuickSolution {
 	
 	private static MyTimer TIMER;
 	
-	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, int precision, MyTimer timer) {
+	private static boolean SHOW_PROGRESS;
+	
+	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, int precision, MyTimer timer, boolean show_progress) {
 		FILS = fils;
 		COLS = cols;
 		
 		NODES = new ArrayList<>();
 		
 		MATRIX = new Point[FILS][COLS];
+		
+		SHOW_PROGRESS = show_progress;
 		
 		List<Integer> values = new ArrayList<>();
 		
@@ -95,9 +99,11 @@ public class QuickSolution {
 					
 					current.setDirection(DIRECTIONS[i][0], DIRECTIONS[i][1]);
 					
-					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
-					TIMER.stallProgress();
-					SimplePrinter.disposeWindow();
+					if (SHOW_PROGRESS) {
+						SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
+						TIMER.stallProgress();
+						SimplePrinter.disposeWindow();
+					}
 					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
@@ -123,9 +129,11 @@ public class QuickSolution {
 					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					current.setDirection(DIRECTIONS[i][0], DIRECTIONS[i][1]);
 					
-					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
-					TIMER.stallProgress();
-					SimplePrinter.disposeWindow();
+					if (SHOW_PROGRESS) {
+						SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
+						TIMER.stallProgress();
+						SimplePrinter.disposeWindow();
+					}
 					
 					if (findPathPoint(node_index, next, precision)) {
 						return true;

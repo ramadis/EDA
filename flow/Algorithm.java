@@ -18,7 +18,9 @@ public class Algorithm {
 	
 	private static MyTimer TIMER;
 	
-	public static Point[][] solve(int fils, int cols, int[][] initial_matrix) {
+	private static boolean SHOW_PROGRESS;
+	
+	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, boolean show_progress) {
 		FILS = fils;
 		COLS = cols;
 		
@@ -27,6 +29,8 @@ public class Algorithm {
 		MATRIX = new Point[FILS][COLS];
 		
 		TIMER = new MyTimer(System.currentTimeMillis());
+		
+		SHOW_PROGRESS = show_progress;
 		
 		List<Integer> values = new ArrayList<>();
 		
@@ -81,9 +85,11 @@ public class Algorithm {
 				if (isEnd) {
 					current.setDirection(DIRECTIONS[i][0], DIRECTIONS[i][1]);
 					
-					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
-					TIMER.stallProgress();
-					SimplePrinter.disposeWindow();
+					if (SHOW_PROGRESS) {
+						SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
+						TIMER.stallProgress();
+						SimplePrinter.disposeWindow();
+					}
 					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
@@ -101,9 +107,11 @@ public class Algorithm {
 					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					current.setDirection(DIRECTIONS[i][0], DIRECTIONS[i][1]);
 					
-					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
-					TIMER.stallProgress();
-					SimplePrinter.disposeWindow();
+					if (SHOW_PROGRESS) {
+						SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
+						TIMER.stallProgress();
+						SimplePrinter.disposeWindow();
+					}
 					
 					if (findPathPoint(node_index, next)) {
 						return true;

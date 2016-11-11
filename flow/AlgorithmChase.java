@@ -16,7 +16,9 @@ public class AlgorithmChase {
 	
 	private static MyTimer TIMER;
 	
-	public static Point[][] solve(int fils, int cols, int[][] initial_matrix) {
+	private static boolean SHOW_PROGRESS;
+	
+	public static Point[][] solve(int fils, int cols, int[][] initial_matrix, boolean show_progress) {
 		FILS = fils;
 		COLS = cols;
 		
@@ -25,6 +27,8 @@ public class AlgorithmChase {
 		MATRIX = new Point[FILS][COLS];
 		
 		TIMER = new MyTimer(System.currentTimeMillis());
+		
+		SHOW_PROGRESS = show_progress;
 		
 		List<Integer> values = new ArrayList<>();
 		
@@ -83,9 +87,11 @@ public class AlgorithmChase {
 				if (isEnd) {
 					current.setDirection(directions[i][0], directions[i][1]);
 					
-					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
-					TIMER.stallProgress();
-					SimplePrinter.disposeWindow();
+					if (SHOW_PROGRESS) {
+						SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
+						TIMER.stallProgress();
+						SimplePrinter.disposeWindow();
+					}
 					
 					if (node_index + 1 == NODES.size()) {
 						int emptyCells = getEmptyCells();
@@ -102,9 +108,11 @@ public class AlgorithmChase {
 				if (next.value == 0) {
 					current.setDirection(directions[i][0], directions[i][1]);
 					
-					SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
-					TIMER.stallProgress();
-					SimplePrinter.disposeWindow();
+					if (SHOW_PROGRESS) {
+						SimplePrinter.setUpPrinterAndPrintStuff(MATRIX);
+						TIMER.stallProgress();
+						SimplePrinter.disposeWindow();
+					}
 					
 					MATRIX[next.fil][next.col].value = MATRIX[current.fil][current.col].value;
 					if (findPathPoint(node_index, next)) {

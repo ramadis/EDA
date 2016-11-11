@@ -25,12 +25,8 @@ public class Test {
 			System.out.println("");
 			
 			long start_time = System.currentTimeMillis();
-			solution = Algorithm.solve(fils, cols, matrix);
+			solution = Algorithm.solve(fils, cols, matrix, true);
 			long total_time = System.currentTimeMillis() - start_time;
-			
-			System.out.println("Salida del algoritmo2:");
-			Algorithm.printMatrixWithDirecs(fils, cols, solution);
-			System.out.println("");
 			
 			System.out.println("Tiempo total de ejecucion: " + total_time + " ms");
 			System.out.println("");
@@ -44,20 +40,18 @@ public class Test {
 			cols = examples.get(i).cols;
 			matrix = examples.get(i).matrix;
 			
-			System.out.println("Entrada del HC:" + " problema: " + i);
+			System.out.println("Entrada del Hill Climbing:" + " problema: " + i);
 			Algorithm.printMatrix(fils, cols, matrix);
 			System.out.println("");
 			
 			long start_time = System.currentTimeMillis();
-			solution = HillClimbing.solve(fils, cols, matrix, 4000);
+			solution = HillClimbing.solve(fils, cols, matrix, 15000);
 			long total_time = System.currentTimeMillis() - start_time;
-			
-			System.out.println("Salida del HCPremium:");
-			Algorithm.printMatrix(fils, cols, solution);
-			System.out.println("");
 			
 			System.out.println("Tiempo total de ejecucion: " + total_time + " ms");
 			System.out.println("");
+
+			SimplePrinter.setUpPrinterAndPrintStuff(solution);
 		}
 		*/
 	}
